@@ -87,9 +87,9 @@ namespace CsharpServer
 
                 PingPayload pingLoad = new PingPayload()
                 { 
-                    Version = new Pingload.VersionPayload() { Protocol = 757, Name = "1.19"},
+                    Version = new Pingload.VersionPayload() { Protocol = 757, Name = "1.18.1"},
                     Players = new Pingload.PlayersPayload() { Max = 100, Online = 99},
-                    Motd = "Ide mit írjak",
+                    Motd = "Server description",
                     Icon = "data:image/png;base64,<data>"
                 };
 
