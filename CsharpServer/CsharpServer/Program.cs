@@ -6,6 +6,10 @@ namespace CsharpServer
     {
         public static void Main(string[] args)
         {
+#if DEBUG
+            Debug.IsDebug = true;
+#endif
+
             Thread thread = new Thread(ThreadManager.StartUpdate);
             thread.IsBackground = true;
             thread.Start();

@@ -38,22 +38,10 @@ namespace CsharpServer
 
         private static void ChangeColor(Debug.Mode mode)
         {
-            if(mode == Mode.INFO)
-            {
-                Console.ForegroundColor = ConsoleColor.White;
-            }
-            else if(mode == Mode.DEBUG)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            }
-            else if(mode == Mode.WARN)
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-            }
+            if(mode == Mode.INFO) Console.ForegroundColor = ConsoleColor.White;
+            else if(mode == Mode.DEBUG) Console.ForegroundColor = ConsoleColor.DarkMagenta;
+            else if(mode == Mode.WARN) Console.ForegroundColor = ConsoleColor.DarkYellow;
+            else Console.ForegroundColor = ConsoleColor.DarkRed;
         }
     }
 }

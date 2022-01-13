@@ -25,10 +25,6 @@ namespace CsharpServer
 
             Initaliaze();
 
-#if DEBUG
-            Debug.IsDebug = true;
-#endif
-
             tcpListener = new TcpListener(IPAddress.Any, port);
             tcpListener.Start();
             tcpListener.BeginAcceptTcpClient(TCPConnectionCallback, null);
