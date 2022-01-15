@@ -99,5 +99,14 @@ namespace CsharpServer
                 SendTCPData(clientID, packet);
             }
         }
+
+        public static void SendLoginSuccess(int clientID)
+        {
+            using(Packet packet = new LoginSuccessPacket(System.Guid.Empty, Server.clients[clientID].username).WrapPacket())
+            {
+                SendTCPData(clientID, packet);
+            }
+            Debug.Send($"{Server.clients[clientID].username} has succesfully logined!");
+        }
     }
 }

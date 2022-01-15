@@ -36,6 +36,8 @@ namespace CsharpServer
         {
             LoginStartPacket loginPacket = (LoginStartPacket)packet;
             Debug.Send($"Recieved login attempt from {loginPacket.Username}");
+            Server.clients[clientID].username = loginPacket.Username;
+            ServerSend.SendLoginSuccess(clientID);
         }
     }
 }

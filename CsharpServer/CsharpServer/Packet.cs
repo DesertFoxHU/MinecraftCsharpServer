@@ -160,6 +160,20 @@ namespace CsharpServer
             while (unsigned != 0);
         }
 
+        public void WriteUUID(Guid value)
+        {
+            if(value == Guid.Empty)
+            {
+                WriteLong(0L);
+                WriteLong(0L);
+            }
+            else
+            {
+                var uuid = System.Numerics.BigInteger.Parse(value.ToString().Replace("-", ""), System.Globalization.NumberStyles.HexNumber);
+                Write(uuid.ToByteArray());
+            }
+        }
+
         /// <summary>Adds a byte to the packet.</summary>
         /// <param name="_value">The byte to add.</param>
         public void Write(byte _value)

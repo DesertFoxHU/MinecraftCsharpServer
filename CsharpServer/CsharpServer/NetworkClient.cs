@@ -14,6 +14,7 @@ namespace CsharpServer
         public UDP udp;
 
         public bool isAttemptingToLogin = false;
+        public string username;
 
         public NetworkClient(int _clientId)
         {
