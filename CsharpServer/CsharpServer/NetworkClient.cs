@@ -5,6 +5,14 @@ using System.Net.Sockets;
 
 namespace CsharpServer
 {
+    public enum PlayState
+    {
+        EMPTY,
+        PING,
+        LOGIN,
+        PLAYING
+    }
+
     public class NetworkClient
     {
         public static int dataBufferSize = 4096;
@@ -13,8 +21,9 @@ namespace CsharpServer
         public TCP tcp;
         public UDP udp;
 
-        public bool isAttemptingToLogin = false;
+        public PlayState state = PlayState.EMPTY;
         public string username;
+        public long lastSentAlive = 0L;
 
         public NetworkClient(int _clientId)
         {
@@ -50,6 +59,7 @@ namespace CsharpServer
 
                 stream.BeginRead(recieveBuffer, 0, dataBufferSize, RecieveCallback, null);
                 Debug.Send($"{socket.Client.RemoteEndPoint} has connected with TCP connection!", Debug.Mode.INFO);
+                Server.clients[id].state = PlayState.PING;
             }
 
             public void SendData(Packet packet)
@@ -116,12 +126,11 @@ namespace CsharpServer
                     {
                         using (Packet packet = new Packet(packetBytes))
                         {
-                            Debug.Send($"Attempt to read packet's ID", Debug.Mode.DEBUG);
                             int packetId = packet.ReadVarInt();
-                            Debug.Send($"Read packetid: {packetId.ToHexId()}", Debug.Mode.DEBUG);
+                            Debug.Send($"PacketID: {packetId.ToHexId()}", Debug.Mode.DEBUG);
 
                             //Exception for login attempt
-                            if (Server.clients[id].isAttemptingToLogin && packetId == LoginStartPacket.PacketID)
+                            if (Server.clients[id].state == PlayState.LOGIN && packetId == LoginStartPacket.PacketID)
                             {
                                 ServerPacket loginPacket = LoginStartPacket.ParsePacket(packet);
                                 ServerHandle.LoginStartRecieve(id, loginPacket);
@@ -210,12 +219,17 @@ namespace CsharpServer
             }
         }
 
-        private void Disconnect()
+        public void Disconnect(string message = "{ip} has disconnected")
         {
-            Debug.Send($"{tcp.socket.Client.RemoteEndPoint} has disconnected!");
+            message = message.Replace("{ip}", "" + tcp.socket.Client.RemoteEndPoint);
+            message = message.Replace("{username}", username);
+
+            Debug.Send(message);
             tcp.Disconnect();
             udp.Disconnect();
-            isAttemptingToLogin = false;
+
+            Server.clients[id].state = PlayState.EMPTY;
+            lastSentAlive = 0L;
         }
     }
 }

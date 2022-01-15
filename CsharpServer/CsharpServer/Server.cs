@@ -36,6 +36,19 @@ namespace CsharpServer
             Debug.Send($"Server started on {port}.", Debug.Mode.INFO);
         }
 
+        public static List<NetworkClient> GetAliveClients()
+        {
+            List<NetworkClient> list = new List<NetworkClient>();
+            for (int i = 1; i <= maxPlayers; i++)
+            {
+                if(clients[i].tcp.socket != null)
+                {
+                    list.Add(clients[i]);
+                }
+            }
+            return list;
+        }
+
         private static void Initaliaze()
         {
             for (int i = 1; i <= maxPlayers; i++)
@@ -47,6 +60,7 @@ namespace CsharpServer
             {
                 { HandshakePacket.PacketID, ServerHandle.HandshakeRecieve },
                 { PingPacket.PacketID, ServerHandle.PingRecieve },
+                { KeepAliveServerPacket.PacketID, ServerHandle.KeepAliveRecieve }
             };
         }
 

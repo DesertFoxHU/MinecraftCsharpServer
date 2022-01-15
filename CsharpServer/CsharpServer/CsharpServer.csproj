@@ -62,9 +62,12 @@
   <ItemGroup>
     <Compile Include="Debug.cs" />
     <Compile Include="ClientPacket.cs" />
+    <Compile Include="KeepAlive.cs" />
     <Compile Include="PacketType\Clientside\PingJsonResponsePacket.cs" />
     <Compile Include="PacketType\Clientside\LoginSuccessPacket.cs" />
+    <Compile Include="PacketType\Clientside\KeepAliveClientPacket.cs" />
     <Compile Include="PacketType\Serverside\LoginStartPacket.cs" />
+    <Compile Include="PacketType\Serverside\KeepAliveServerPacket.cs" />
     <Compile Include="ServerPacket.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="Packet.cs" />

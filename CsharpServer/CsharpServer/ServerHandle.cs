@@ -15,12 +15,12 @@ namespace CsharpServer
 
             if(hPacket.Status == 1)
             {
-                Server.clients[clientID].isAttemptingToLogin = false;
+                Server.clients[clientID].state = PlayState.PING;
                 ServerSend.SendJsonResponse(clientID);
             }
             else if(hPacket.Status == 2)
             {
-                Server.clients[clientID].isAttemptingToLogin = true;
+                Server.clients[clientID].state = PlayState.LOGIN;
                 Debug.Send($"{Server.clients[clientID].tcp.socket.Client.RemoteEndPoint} has trying to login!");
             }
         }
@@ -38,6 +38,21 @@ namespace CsharpServer
             Debug.Send($"Recieved login attempt from {loginPacket.Username}");
             Server.clients[clientID].username = loginPacket.Username;
             ServerSend.SendLoginSuccess(clientID);
+            Server.clients[clientID].state = PlayState.PLAYING;
+        }
+
+        public static void KeepAliveRecieve(int clientID, ServerPacket packet)
+        {
+            KeepAliveServerPacket keepPacket = (KeepAliveServerPacket)packet;
+
+            Debug.Send($"Recieved keep alive long from client: {keepPacket.Value}", Debug.Mode.DEBUG);
+            NetworkClient client = Server.clients[clientID];
+            if (client.lastSentAlive == 0) return;
+
+            /*if(client.lastSentAlive != keepPacket.Value)
+            {
+                Server.clients[clientID].Disconnect("{username} has kicked out of server!");
+            }*/
         }
     }
 }

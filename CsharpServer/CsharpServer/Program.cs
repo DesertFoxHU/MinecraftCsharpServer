@@ -10,11 +10,19 @@ namespace CsharpServer
             Debug.IsDebug = true;
 #endif
 
-            Thread thread = new Thread(ThreadManager.StartUpdate);
-            thread.IsBackground = true;
+            Thread thread = new Thread(ThreadManager.StartUpdate)
+            {
+                IsBackground = true
+            };
             thread.Start();
 
             Server.Start(10, 25565);
+
+            Thread keepalive = new Thread(KeepAlive.Update)
+            {
+                IsBackground = true
+            };
+            keepalive.Start();
 
             var mre = new ManualResetEvent(false);
             mre.WaitOne();
