@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CsharpServer
 {
-    class PingPayload
+    public class PingPayload
     {
         /// <summary>
         /// Protocol that the server is using and the given name

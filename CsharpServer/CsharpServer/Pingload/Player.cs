@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsharpServer.Pingload
 {
-    class Player
+    public class Player
     {
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsharpServer.Pingload
 {
-    class PlayersPayload
+    public class PlayersPayload
     {
         [JsonProperty(PropertyName = "max")]
         public int Max { get; set; }

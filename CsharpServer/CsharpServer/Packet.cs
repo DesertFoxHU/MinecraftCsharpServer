@@ -11,12 +11,6 @@ namespace CsharpServer
         JsonResponse = 0,
     }
 
-    /// <summary>Sent from client to server.</summary>
-    public enum ClientPackets
-    {
-        handShake = 0,
-    }
-
     public class Packet : IDisposable
     {
         private List<byte> buffer;
@@ -28,6 +22,14 @@ namespace CsharpServer
         {
             buffer = new List<byte>(); // Intitialize buffer
             readPos = 0; // Set readPos to 0
+        }
+
+        public Packet(int packetID)
+        {
+            buffer = new List<byte>();
+            readPos = 0;
+
+            WriteVarInt(packetID);
         }
 
         /// <summary>Creates a packet from which data can be read. Used for receiving.</summary>
@@ -123,10 +125,14 @@ namespace CsharpServer
         {
             Span<byte> span = stackalloc byte[4];
             BinaryPrimitives.WriteInt32BigEndian(span, value);
-            foreach(byte b in span)
-            {
-                buffer.Add(b);
-            }
+            buffer.AddRange(span.ToArray());
+        }
+
+        public void WriteLong(long value)
+        {
+            Span<byte> span = stackalloc byte[8];
+            BinaryPrimitives.WriteInt64BigEndian(span, value);
+            buffer.AddRange(span.ToArray());
         }
 
         public void WriteString(string value, int maxLength = short.MaxValue)
@@ -169,18 +175,6 @@ namespace CsharpServer
         /// <summary>Adds a short to the packet.</summary>
         /// <param name="_value">The short to add.</param>
         public void Write(short _value)
-        {
-            buffer.AddRange(BitConverter.GetBytes(_value));
-        }
-        /// <summary>Adds an int to the packet.</summary>
-        /// <param name="_value">The int to add.</param>
-        public void Write(int _value)
-        {
-            buffer.AddRange(BitConverter.GetBytes(_value));
-        }
-        /// <summary>Adds a long to the packet.</summary>
-        /// <param name="_value">The long to add.</param>
-        public void Write(long _value)
         {
             buffer.AddRange(BitConverter.GetBytes(_value));
         }
@@ -308,7 +302,7 @@ namespace CsharpServer
             }
         }
 
-        public int ReadEdianInt()
+        public int ReadInt()
         {
             if (buffer.Count > readPos)
             {
@@ -322,49 +316,25 @@ namespace CsharpServer
             }
             else
             {
-                throw new Exception("Could not read value of type 'edian int'!");
-            }
-        }
-
-        /// <summary>Reads an int from the packet.</summary>
-        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
-        public int ReadInt(bool _moveReadPos = true)
-        {
-            if (buffer.Count > readPos)
-            {
-                // If there are unread bytes
-                int _value = BitConverter.ToInt32(readableBuffer, readPos); // Convert the bytes to an int
-                if (_moveReadPos)
-                {
-                    // If _moveReadPos is true
-                    readPos += 4; // Increase readPos by 4
-                }
-                return _value; // Return the int
-            }
-            else
-            {
                 throw new Exception("Could not read value of type 'int'!");
             }
         }
 
-        /// <summary>Reads a long from the packet.</summary>
-        /// <param name="_moveReadPos">Whether or not to move the buffer's read position.</param>
-        public long ReadLong(bool _moveReadPos = true)
+        public long ReadLong()
         {
-            if (buffer.Count > readPos)
+            if(buffer.Count > readPos)
             {
-                // If there are unread bytes
-                long _value = BitConverter.ToInt64(readableBuffer, readPos); // Convert the bytes to a long
-                if (_moveReadPos)
+                Span<byte> buffer = stackalloc byte[8];
+                for(int i = 0; i < buffer.Length; i++)
                 {
-                    // If _moveReadPos is true
-                    readPos += 8; // Increase readPos by 8
+                    buffer[i] = readableBuffer[readPos];
+                    readPos++;
                 }
-                return _value; // Return the long
+                return BinaryPrimitives.ReadInt64BigEndian(buffer);
             }
             else
             {
-                throw new Exception("Could not read value of type 'long'!");
+                throw new Exception("Could not read value of type 'long'");
             }
         }
 

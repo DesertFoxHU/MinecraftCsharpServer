@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CsharpServer.PacketType;
+using System;
 using System.Net;
 using System.Net.Sockets;
 
@@ -11,6 +12,8 @@ namespace CsharpServer
         public int id;
         public TCP tcp;
         public UDP udp;
+
+        public bool isAttemptingToLogin = false;
 
         public NetworkClient(int _clientId)
         {
@@ -115,12 +118,22 @@ namespace CsharpServer
                             Debug.Send($"Attempt to read packet's ID", Debug.Mode.DEBUG);
                             int packetId = packet.ReadVarInt();
                             Debug.Send($"Read packetid: {packetId.ToHexId()}", Debug.Mode.DEBUG);
-                            Debug.Send($"Packet's type is {(ClientPackets) packetId}", Debug.Mode.DEBUG);
 
-                            AbstractPacket abstractPacket = AbstractPacket.ParsePacket(packetId, packet);
+                            //Exception for login attempt
+                            if (Server.clients[id].isAttemptingToLogin && packetId == LoginStartPacket.PacketID)
+                            {
+                                ServerPacket loginPacket = LoginStartPacket.ParsePacket(packet);
+                                ServerHandle.LoginStartRecieve(id, loginPacket);
+                            }
+                            else
+                            {
+                                //Normal packet handling
 
-                            if(abstractPacket != null)
-                                Server.packetHandlers[packetId](id, abstractPacket);
+                                ServerPacket abstractPacket = ServerPacket.ParsePacket(packetId, packet);
+
+                                if (abstractPacket != null)
+                                    Server.packetHandlers[packetId](id, abstractPacket);
+                            }
                         }
                     });
 
@@ -198,9 +211,10 @@ namespace CsharpServer
 
         private void Disconnect()
         {
-            Debug.Send($"Somebody has disconnected!");
+            Debug.Send($"{tcp.socket.Client.RemoteEndPoint} has disconnected!");
             tcp.Disconnect();
             udp.Disconnect();
+            isAttemptingToLogin = false;
         }
     }
 }

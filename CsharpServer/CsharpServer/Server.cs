@@ -1,15 +1,16 @@
-﻿using System;
+﻿using CsharpServer.PacketType;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
 namespace CsharpServer
 {
-    public delegate void PacketHandler(int fromClient, AbstractPacket packet);
+    public delegate void PacketHandler(int fromClient, ServerPacket packet);
 
     public static class Server
     {
-        public static int maxPlayer;
+        public static int maxPlayers;
         public static int port;
         private static TcpListener tcpListener;
         private static UdpClient udpListener;
@@ -18,9 +19,9 @@ namespace CsharpServer
 
         public static Dictionary<int, PacketHandler> packetHandlers;
 
-        public static void Start(int maxPlayer, int port)
+        public static void Start(int maxPlayers, int port)
         {
-            Server.maxPlayer = maxPlayer;
+            Server.maxPlayers = maxPlayers;
             Server.port = port;
 
             Initaliaze();
@@ -33,6 +34,20 @@ namespace CsharpServer
             udpListener.BeginReceive(UDPRecieveCallback, null);
 
             Debug.Send($"Server started on {port}.", Debug.Mode.INFO);
+        }
+
+        private static void Initaliaze()
+        {
+            for (int i = 1; i <= maxPlayers; i++)
+            {
+                clients.Add(i, new NetworkClient(i));
+            }
+
+            packetHandlers = new Dictionary<int, PacketHandler>()
+            {
+                { HandshakePacket.PacketID, ServerHandle.HandshakeRecieve },
+                { PingPacket.PacketID, ServerHandle.PingRecieve },
+            };
         }
 
         private static void UDPRecieveCallback(IAsyncResult result)
@@ -81,7 +96,7 @@ namespace CsharpServer
             tcpListener.BeginAcceptTcpClient(TCPConnectionCallback, null);
             Debug.Send($"Incoming connection from {client.Client.RemoteEndPoint}...", Debug.Mode.DEBUG);
 
-            for (int i = 1; i <= maxPlayer; i++)
+            for (int i = 1; i <= maxPlayers; i++)
             {
                 if(clients[i].tcp.socket == null)
                 {
@@ -93,20 +108,7 @@ namespace CsharpServer
             Debug.Send($"Somebody tried to connect while the server is full", Debug.Mode.WARN);
         }
 
-        private static void Initaliaze()
-        {
-            for (int i = 1; i <= maxPlayer; i++)
-            {
-                clients.Add(i, new NetworkClient(i));
-            }
-
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                { (int) ClientPackets.handShake, ServerHandle.HandshakeRecieve }
-            };
-        }
-
-        public static void HandlePacket(int packetID, int clientID, AbstractPacket packet)
+        public static void HandlePacket(int packetID, int clientID, ServerPacket packet)
         {
             try
             {

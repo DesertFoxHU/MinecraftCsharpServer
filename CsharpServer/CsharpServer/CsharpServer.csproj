@@ -61,10 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug.cs" />
-    <Compile Include="AbstractPacket.cs" />
+    <Compile Include="ClientPacket.cs" />
+    <Compile Include="PacketType\Clientside\PingJsonResponsePacket.cs" />
+    <Compile Include="PacketType\Serverside\LoginStartPacket.cs" />
+    <Compile Include="ServerPacket.cs" />
     <Compile Include="NetworkClient.cs" />
     <Compile Include="Packet.cs" />
-    <Compile Include="PacketType\Handshake.cs" />
+    <Compile Include="PacketType\Clientside\PongPacket.cs" />
+    <Compile Include="PacketType\Serverside\PingPacket.cs" />
+    <Compile Include="PacketType\Serverside\HandshakePacket.cs" />
     <Compile Include="Pingload\PingPayload.cs" />
     <Compile Include="Pingload\Player.cs" />
     <Compile Include="Pingload\PlayersPayload.cs" />

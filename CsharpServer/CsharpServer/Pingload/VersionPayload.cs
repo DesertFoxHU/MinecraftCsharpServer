@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CsharpServer.Pingload
 {
-    class VersionPayload
+    public class VersionPayload
     {
         [JsonProperty(PropertyName = "protocol")]
         public int Protocol { get; set; }

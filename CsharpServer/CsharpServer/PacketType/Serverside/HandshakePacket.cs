@@ -1,8 +1,10 @@
 ﻿namespace CsharpServer.PacketType
 {
-    public class Handshake : AbstractPacket
+    public class HandshakePacket : ServerPacket
     {
-        public override int ID { get; set; } = 0x00;
+        public static int PacketID = 0x00;
+
+        public override int ID { get; set; } = HandshakePacket.PacketID;
 
         public int ProtocolVersion { get; private set; }
 
@@ -12,7 +14,7 @@
 
         public int Status { get; private set; } = 0;
 
-        public Handshake(Packet packet)
+        public HandshakePacket(Packet packet)
         {
             ProtocolVersion = packet.ReadVarInt();
             ServerAddress = packet.ReadString();
@@ -20,9 +22,9 @@
             Status = packet.ReadVarInt();
         }
 
-        public static Handshake ParsePacket(Packet packet)
+        public static HandshakePacket ParsePacket(Packet packet)
         {
-            return new Handshake(packet);
+            return new HandshakePacket(packet);
         }
     }
 }
