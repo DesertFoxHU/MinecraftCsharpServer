@@ -9,7 +9,9 @@
 ## Functions:
 - Can recieve UDP and TCP packets
 - Can send TCP packets
-- Handles Handshaking packet and response with a json response (ServerListPing)
+- Handles server list ping
+- Responses to ping packets
+- Can handle login in offline mode
 
 ### credits:
 - https://github.com/tom-weiland/tcp-udp-networking - the base code of this server, however his code was made for Unity.
