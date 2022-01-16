@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using CsharpServer.Network;
+using System;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace CsharpServer
 {
@@ -14,11 +11,21 @@ namespace CsharpServer
         {
             while (true)
             {
-                foreach(NetworkClient player in Server.GetAliveClients())
+                foreach(NetworkClient client in Server.GetAliveClients())
                 {
-                    if(player.state == PlayState.PLAYING)
+                    if(client.lastSentAlive != 0)
                     {
-                        ServerSend.SendKeepAlive(player.id);
+                        long elapsedTime = DateTime.Now.Ticks - client.lastSentAlive;
+                        if (new TimeSpan(elapsedTime).TotalSeconds >= 30d)
+                        {
+                            client.Disconnect("{username} has kicked out! Reason: Not responded within 30 seconds");
+                            continue;
+                        }
+                    }
+
+                    if(client.state == PlayState.PLAYING)
+                    {
+                        ServerSend.SendKeepAlive(client.id);
                     }
                 }
                 Thread.Sleep(10000); //10 sec

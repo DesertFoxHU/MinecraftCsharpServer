@@ -1,4 +1,6 @@
-﻿namespace CsharpServer.PacketType
+﻿using CsharpServer.Network;
+
+namespace CsharpServer.PacketType
 {
     public class PongPacket : ClientPacket
     {

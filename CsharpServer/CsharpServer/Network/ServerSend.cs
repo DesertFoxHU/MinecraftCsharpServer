@@ -1,8 +1,9 @@
-﻿using CsharpServer.PacketType;
+﻿using CsharpServer.Network;
+using CsharpServer.PacketType;
 using Newtonsoft.Json;
 using System;
 
-namespace CsharpServer
+namespace CsharpServer.Network
 {
     public class ServerSend
     {
@@ -103,11 +104,11 @@ namespace CsharpServer
 
         public static void SendLoginSuccess(int clientID)
         {
-            using(Packet packet = new LoginSuccessPacket(System.Guid.Empty, Server.clients[clientID].username).WrapPacket())
+            using(Packet packet = new LoginSuccessPacket(System.Guid.Empty, Server.clients[clientID].player.Username).WrapPacket())
             {
                 SendTCPData(clientID, packet);
             }
-            Debug.Send($"{Server.clients[clientID].username} has succesfully logined!");
+            Debug.Send($"{Server.clients[clientID].player.Username} has succesfully logined!");
         }
 
         public static void SendKeepAlive(int clientID)
@@ -116,12 +117,12 @@ namespace CsharpServer
 
             if(client.state != PlayState.PLAYING)
             {
-                Debug.Send($"Cant send KeepAlivePacket to {clientID} {client.username}!", Debug.Mode.WARN);
+                Debug.Send($"Cant send KeepAlivePacket to {clientID} {client.player.Username}!", Debug.Mode.WARN);
                 return;
             }
 
             long sentValue = DateTime.Now.Ticks;
-            using (Packet packet = new KeepAliveClientPacket(DateTime.Now.Ticks).WrapPacket())
+            using (Packet packet = new KeepAliveClientPacket(sentValue).WrapPacket())
             {
                 SendTCPData(clientID, packet);
             }

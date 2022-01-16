@@ -61,16 +61,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug.cs" />
-    <Compile Include="ClientPacket.cs" />
+    <Compile Include="Game\Player.cs" />
+    <Compile Include="Identifier.cs" />
+    <Compile Include="Network\ClientPacket.cs" />
+    <Compile Include="Game\Entity.cs" />
     <Compile Include="KeepAlive.cs" />
+    <Compile Include="Network\NetworkClient.TCP.cs" />
+    <Compile Include="Network\NetworkClient.UDP.cs" />
+    <Compile Include="Network\Packet.Functions.cs" />
+    <Compile Include="Network\Packet.Dispose.cs" />
+    <Compile Include="Network\Packet.Reader.cs" />
+    <Compile Include="Network\Packet.Writer.cs" />
+    <Compile Include="Network\Server.Functions.cs" />
+    <Compile Include="Network\Server.Events.cs" />
+    <Compile Include="PacketType\Clientside\JoinGamePacket.cs" />
     <Compile Include="PacketType\Clientside\PingJsonResponsePacket.cs" />
     <Compile Include="PacketType\Clientside\LoginSuccessPacket.cs" />
     <Compile Include="PacketType\Clientside\KeepAliveClientPacket.cs" />
     <Compile Include="PacketType\Serverside\LoginStartPacket.cs" />
     <Compile Include="PacketType\Serverside\KeepAliveServerPacket.cs" />
-    <Compile Include="ServerPacket.cs" />
-    <Compile Include="NetworkClient.cs" />
-    <Compile Include="Packet.cs" />
+    <Compile Include="Network\ServerPacket.cs" />
+    <Compile Include="Network\NetworkClient.cs" />
+    <Compile Include="Network\Packet.cs" />
     <Compile Include="PacketType\Clientside\PongPacket.cs" />
     <Compile Include="PacketType\Serverside\PingPacket.cs" />
     <Compile Include="PacketType\Serverside\HandshakePacket.cs" />
@@ -80,11 +92,12 @@
     <Compile Include="Pingload\VersionPayload.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="ServerHandle.cs" />
-    <Compile Include="ServerSend.cs" />
+    <Compile Include="Network\Server.cs" />
+    <Compile Include="Network\ServerHandle.cs" />
+    <Compile Include="Network\ServerSend.cs" />
     <Compile Include="ThreadManager.cs" />
     <Compile Include="Utils.cs" />
+    <Compile Include="Game\World.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

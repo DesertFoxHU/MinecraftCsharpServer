@@ -1,7 +1,7 @@
 ﻿using CsharpServer.PacketType;
 using System.Collections.Generic;
 
-namespace CsharpServer
+namespace CsharpServer.Network
 {
     /// <summary>
     /// Packets sent by server towards client

@@ -1,6 +1,8 @@
-﻿using CsharpServer.PacketType;
+﻿using CsharpServer.Game;
+using CsharpServer.Network;
+using CsharpServer.PacketType;
 
-namespace CsharpServer
+namespace CsharpServer.Network
 {
     public class ServerHandle
     {
@@ -36,7 +38,7 @@ namespace CsharpServer
         {
             LoginStartPacket loginPacket = (LoginStartPacket)packet;
             Debug.Send($"Recieved login attempt from {loginPacket.Username}");
-            Server.clients[clientID].username = loginPacket.Username;
+            Server.clients[clientID].player = new Player(loginPacket.Username);
             ServerSend.SendLoginSuccess(clientID);
             Server.clients[clientID].state = PlayState.PLAYING;
         }
@@ -49,10 +51,10 @@ namespace CsharpServer
             NetworkClient client = Server.clients[clientID];
             if (client.lastSentAlive == 0) return;
 
-            /*if(client.lastSentAlive != keepPacket.Value)
+            if(client.lastSentAlive != keepPacket.Value)
             {
-                Server.clients[clientID].Disconnect("{username} has kicked out of server!");
-            }*/
+                Server.clients[clientID].Disconnect("{username} has kicked out of server! Reason: Recieved KeepAlivePacket has other value than the send one");
+            }
         }
     }
 }

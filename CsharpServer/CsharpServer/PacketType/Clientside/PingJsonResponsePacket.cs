@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using CsharpServer.Network;
 
 namespace CsharpServer.PacketType
 {

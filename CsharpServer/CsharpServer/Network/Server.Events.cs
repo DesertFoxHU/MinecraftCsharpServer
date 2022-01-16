@@ -1,69 +1,14 @@
-﻿using CsharpServer.PacketType;
+﻿using CsharpServer.Network;
+using CsharpServer.PacketType;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 
-namespace CsharpServer
+namespace CsharpServer.Network
 {
-    public delegate void PacketHandler(int fromClient, ServerPacket packet);
-
-    public static class Server
+    public static partial class Server
     {
-        public static int maxPlayers;
-        public static int port;
-        private static TcpListener tcpListener;
-        private static UdpClient udpListener;
-
-        public static Dictionary<int, NetworkClient> clients = new Dictionary<int, NetworkClient>();
-
-        public static Dictionary<int, PacketHandler> packetHandlers;
-
-        public static void Start(int maxPlayers, int port)
-        {
-            Server.maxPlayers = maxPlayers;
-            Server.port = port;
-
-            Initaliaze();
-
-            tcpListener = new TcpListener(IPAddress.Any, port);
-            tcpListener.Start();
-            tcpListener.BeginAcceptTcpClient(TCPConnectionCallback, null);
-
-            udpListener = new UdpClient(port);
-            udpListener.BeginReceive(UDPRecieveCallback, null);
-
-            Debug.Send($"Server started on {port}.", Debug.Mode.INFO);
-        }
-
-        public static List<NetworkClient> GetAliveClients()
-        {
-            List<NetworkClient> list = new List<NetworkClient>();
-            for (int i = 1; i <= maxPlayers; i++)
-            {
-                if(clients[i].tcp.socket != null)
-                {
-                    list.Add(clients[i]);
-                }
-            }
-            return list;
-        }
-
-        private static void Initaliaze()
-        {
-            for (int i = 1; i <= maxPlayers; i++)
-            {
-                clients.Add(i, new NetworkClient(i));
-            }
-
-            packetHandlers = new Dictionary<int, PacketHandler>()
-            {
-                { HandshakePacket.PacketID, ServerHandle.HandshakeRecieve },
-                { PingPacket.PacketID, ServerHandle.PingRecieve },
-                { KeepAliveServerPacket.PacketID, ServerHandle.KeepAliveRecieve }
-            };
-        }
-
         private static void UDPRecieveCallback(IAsyncResult result)
         {
             try
@@ -146,12 +91,6 @@ namespace CsharpServer
             {
                 Debug.Send($"Error sending data to {clientEndPoint} via UDP: {ex}", Debug.Mode.ERROR);
             }
-        }
-
-        private static void Stop()
-        {
-            tcpListener.Stop();
-            udpListener.Close();
         }
     }
 }

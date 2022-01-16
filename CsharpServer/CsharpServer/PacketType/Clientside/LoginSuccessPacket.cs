@@ -1,4 +1,5 @@
 ﻿using System;
+using CsharpServer.Network;
 
 namespace CsharpServer.PacketType
 {
