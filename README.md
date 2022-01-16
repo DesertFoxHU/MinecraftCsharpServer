@@ -8,10 +8,12 @@
 
 ## Functions:
 - Can recieve UDP and TCP packets
-- Can send TCP packets
+- Can send UDP and TCP packets
 - Handles server list ping
 - Responses to ping packets
 - Can handle login in offline mode
+
+![kép](https://user-images.githubusercontent.com/40893862/149671417-61b963c6-7279-4c10-b487-e86f69c00376.png)
 
 ### credits:
 - https://github.com/tom-weiland/tcp-udp-networking - the base code of this server, however his code was made for Unity.
