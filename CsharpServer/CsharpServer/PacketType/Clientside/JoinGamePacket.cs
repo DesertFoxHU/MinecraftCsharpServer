@@ -10,13 +10,13 @@ namespace CsharpServer.PacketType
         public override int ID { get; set; } = JoinGamePacket.PacketID;
 
         public Player Player { get; private set; }
-        public bool IsHardcore { get; private set; }
-        public byte Gamemode { get; private set; }
+        public bool IsHardcore { get; private set; } = false;
+        public byte Gamemode { get; private set; } = 0;
         public byte PreviousGamemode { get; private set; }
         public int WorldCount { get; private set; }
         public Identifier[] DimensionNames { get; private set; }
-        public byte DimensionCodec { get; private set; } //Replace with NBT Tag
-        public byte Dimension { get; private set; } //Replace with NBT Tag
+        //public NbtFile DimensionCodec { get; private set; } //Replace with NBT Tag
+        //public NbtFile Dimension { get; private set; } //Replace with NBT Tag
         public Identifier DimensionName { get; private set; }
         public long HashedSeed { get; private set; }
         public int MaxPlayers { get; private set; } = 0; //Ignored by the client
@@ -27,7 +27,25 @@ namespace CsharpServer.PacketType
         public bool IsDebug { get; private set; } = false;
         public bool IsFlat { get; private set; } = false;
 
-        public JoinGamePacket(Player player, bool isHardcore, byte gamemode, byte previousGamemode, int worldCount, Identifier[] dimensionNames, byte dimensionCodec, byte dimension, Identifier dimensionName, long hashedSeed, int maxPlayers, int viewDistance, int simulationDistance, bool reducedDebugInfo, bool enableRespawnScreen, bool isDebug, bool isFlat)
+        /*public JoinGamePacket(Player player, byte previousGamemode, int worldCount, Identifier[] dimensionNames, NbtFile dimensionCodec, NbtFile dimension, Identifier dimensionName, long hashedSeed, int viewDistance = 16, int simulationDistance = 32, bool reducedDebugInfo = false, bool enableRespawnScreen = true, bool isDebug = false, bool isFlat = false)
+        {
+            Player = player;
+            PreviousGamemode = previousGamemode;
+            WorldCount = worldCount;
+            DimensionNames = dimensionNames;
+            DimensionCodec = dimensionCodec;
+            Dimension = dimension;
+            DimensionName = dimensionName;
+            HashedSeed = hashedSeed;
+            ViewDistance = viewDistance;
+            SimulationDistance = simulationDistance;
+            ReducedDebugInfo = reducedDebugInfo;
+            EnableRespawnScreen = enableRespawnScreen;
+            IsDebug = isDebug;
+            IsFlat = isFlat;
+        }
+
+        public JoinGamePacket(Player player, bool isHardcore, byte gamemode, byte previousGamemode, int worldCount, Identifier[] dimensionNames, NbtFile dimensionCodec, NbtFile dimension, Identifier dimensionName, long hashedSeed, int viewDistance = 16, int simulationDistance = 32, bool reducedDebugInfo = false, bool enableRespawnScreen = true, bool isDebug = false, bool isFlat = false)
         {
             Player = player;
             IsHardcore = isHardcore;
@@ -39,14 +57,13 @@ namespace CsharpServer.PacketType
             Dimension = dimension;
             DimensionName = dimensionName;
             HashedSeed = hashedSeed;
-            MaxPlayers = maxPlayers;
             ViewDistance = viewDistance;
             SimulationDistance = simulationDistance;
             ReducedDebugInfo = reducedDebugInfo;
             EnableRespawnScreen = enableRespawnScreen;
             IsDebug = isDebug;
             IsFlat = isFlat;
-        }
+        }*/
 
         public override Packet WrapPacket()
         {

@@ -17,6 +17,7 @@ namespace CsharpServer
             };
             thread.Start();
 
+            NBTRegistry.Initaliaze();
             Server.Start(10, 25565);
 
             Thread keepalive = new Thread(KeepAlive.Update)
@@ -25,8 +26,12 @@ namespace CsharpServer
             };
             keepalive.Start();
 
+            Debug.Send("Server succesfully started.");
+
+            #region Keep always this at the end
             var mre = new ManualResetEvent(false);
             mre.WaitOne();
+            #endregion
         }
     }
 }

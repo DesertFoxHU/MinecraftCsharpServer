@@ -1,4 +1,5 @@
-﻿using CsharpServer.Network;
+﻿using CsharpServer.Game;
+using CsharpServer.Network;
 using CsharpServer.PacketType;
 using Newtonsoft.Json;
 using System;
@@ -127,6 +128,26 @@ namespace CsharpServer.Network
                 SendTCPData(clientID, packet);
             }
             client.lastSentAlive = sentValue;
+        }
+
+        public static void JoinGame(NetworkClient client)
+        {
+            Player player = client.player;
+            byte previousGameMode = 0;
+            int worldCount = 1;
+            Identifier[] worldNames = new Identifier[] { new Identifier("game") };
+
+            /*using (Packet packet = new JoinGamePacket(
+                player,
+                previousGameMode,
+                worldCount,
+                worldNames,
+
+
+                ).WrapPacket())
+            {
+
+            }*/
         }
     }
 }

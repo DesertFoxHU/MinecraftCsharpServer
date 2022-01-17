@@ -63,6 +63,7 @@
     <Compile Include="Debug.cs" />
     <Compile Include="Game\Player.cs" />
     <Compile Include="Identifier.cs" />
+    <Compile Include="NBTRegistry.cs" />
     <Compile Include="Network\ClientPacket.cs" />
     <Compile Include="Game\Entity.cs" />
     <Compile Include="KeepAlive.cs" />

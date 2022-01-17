@@ -41,6 +41,7 @@ namespace CsharpServer.Network
             Server.clients[clientID].player = new Player(loginPacket.Username);
             ServerSend.SendLoginSuccess(clientID);
             Server.clients[clientID].state = PlayState.PLAYING;
+            ServerSend.JoinGame(Server.clients[clientID]);
         }
 
         public static void KeepAliveRecieve(int clientID, ServerPacket packet)

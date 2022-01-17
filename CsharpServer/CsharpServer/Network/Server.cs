@@ -32,7 +32,7 @@ namespace CsharpServer.Network
             udpListener = new UdpClient(port);
             udpListener.BeginReceive(UDPRecieveCallback, null);
 
-            Debug.Send($"Server started on {port}.", Debug.Mode.INFO);
+            Debug.Send($"Starting server on {port}...");
         }
 
         private static void Initaliaze()
