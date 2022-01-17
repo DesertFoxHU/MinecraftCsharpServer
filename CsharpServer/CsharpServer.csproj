@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="0\dimension_codec.snbt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="0\dimension_codec.snbt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="SharpNBT" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Game\" />
+    <Folder Include="Network\" />
+    <Folder Include="Registry\" />
+    <Folder Include="PacketType\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Registry\dimension_codec.snbt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Registry\dimension_codec.snbt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
