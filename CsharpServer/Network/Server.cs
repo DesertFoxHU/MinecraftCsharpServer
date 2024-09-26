@@ -46,7 +46,8 @@ namespace CsharpServer.Network
             {
                 { HandshakePacket.PacketID, ServerHandle.HandshakeRecieve },
                 { PingPacket.PacketID, ServerHandle.PingRecieve },
-                { KeepAliveServerPacket.PacketID, ServerHandle.KeepAliveRecieve }
+                { KeepAliveServerPacket.PacketID, ServerHandle.KeepAliveRecieve },
+                { LoginAcknowledged.PacketID, ServerHandle.LoginAcknowledged },
             };
         }
 

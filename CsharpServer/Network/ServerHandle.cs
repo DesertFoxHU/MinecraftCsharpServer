@@ -44,6 +44,11 @@ namespace CsharpServer.Network
             ServerSend.JoinGame(Server.clients[clientID]);
         }
 
+        public static void LoginAcknowledged(int clientID, ServerPacket packet)
+        {
+
+        }
+
         public static void KeepAliveRecieve(int clientID, ServerPacket packet)
         {
             KeepAliveServerPacket keepPacket = (KeepAliveServerPacket)packet;

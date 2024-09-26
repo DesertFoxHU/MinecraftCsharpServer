@@ -22,7 +22,6 @@
     <Folder Include="Game\" />
     <Folder Include="Network\" />
     <Folder Include="Registry\" />
-    <Folder Include="PacketType\" />
   </ItemGroup>
 
   <ItemGroup>

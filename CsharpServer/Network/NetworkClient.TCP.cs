@@ -119,7 +119,6 @@ namespace CsharpServer.Network
                             else
                             {
                                 //Normal packet handling
-
                                 ServerPacket abstractPacket = ServerPacket.ParsePacket(packetId, packet);
 
                                 if (abstractPacket != null)

@@ -8,7 +8,7 @@ namespace CsharpServer
 {
     public class Identifier
     {
-        private const string AllowedCharSet = "01​​234​5​6​78​9abcdefghijklmnopqrstuvwxyz-_";
+        private const string AllowedCharSet = "01​​234​5​6​78​9abcdefghijklmnopqrstuvwxyz-_:";
 
         public string ID { get; set; } = null;
 

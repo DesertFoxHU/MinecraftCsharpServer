@@ -23,6 +23,9 @@ namespace CsharpServer.PacketType
             Packet packet = new Packet(ID);
             packet.WriteUUID(UUID);
             packet.WriteString(Username);
+            packet.WriteVarInt(0);
+            //packet.Write(Array.Empty<int>());
+            packet.Write(false);
             return packet;
         }
     }

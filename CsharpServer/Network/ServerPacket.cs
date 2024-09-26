@@ -16,7 +16,9 @@ namespace CsharpServer.Network
         {
             { HandshakePacket.PacketID, HandshakePacket.ParsePacket },
             { PingPacket.PacketID, PingPacket.ParsePacket },
-            { KeepAliveServerPacket.PacketID, KeepAliveServerPacket.ParsePacket }
+            { KeepAliveServerPacket.PacketID, KeepAliveServerPacket.ParsePacket },
+            { LoginAcknowledged.PacketID, LoginAcknowledged.ParsePacket },
+            { Disconnect.PacketID, Disconnect.ParsePacket },
         };
 
         public static ServerPacket ParsePacket(int packetID, Packet packet)
